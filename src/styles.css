@@ -1,0 +1,125 @@
+.row-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.column-container{
+    display: flex;
+    flex-direction: column;
+}
+
+body{
+    background-color: rgb(119, 119, 119);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.general-info{
+    padding: 10px;
+    background-color: rgb(124, 189, 255);
+}
+
+.aircraft-info{
+    padding: 10px;
+    background-color: rgb(37, 153, 255);
+}
+
+
+/* -------------------- FLIGHT INFO ------------------- */
+
+.flight-info{
+    padding: 10px;
+    background-color: rgb(152, 255, 224);
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+}
+
+.airports{
+    display: flex;
+    flex-direction: row;
+    border: solid blue;
+    column-gap: 1em;
+}
+
+.airport-info{
+    display: flex;
+    flex-direction: column;
+    border: solid rgb(255, 0, 157);
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.navigation-data{
+    padding: 10px;
+    background-color: rgb(255, 210, 212);
+}
+
+
+
+/* -------------------- CHECKPOINT ------------------- */
+
+.checkpoints-container{
+    padding: 10px;
+    background-color: rgb(252, 132, 138);
+    display: flex;
+    flex-direction: column;
+}
+
+.checkpoints-titles{
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5%;
+    grid-gap: 5px;
+}
+
+.checkpoints-titles > * {
+    text-align: center;
+}
+
+.checkpoint{
+    padding: 10px;
+    background-color: rgb(236, 75, 83);
+    display: grid;
+    grid-template-columns: 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5%;
+    grid-gap: 5px;
+}
+
+.checkpoint > * {
+    border-style: solid;
+    border-color: #f0f0f0;
+}
+
+.wind-data{
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 50% 50%;
+}
+
+.totals{
+    padding: 10px;
+    background-color: rgb(245, 244, 167);
+}
+
+/* ---------------------- FUEL DATA -------------------- */
+
+.fuel-data{
+    padding: 10px;
+    background-color: rgb(255, 134, 245);
+    display: flex;
+    flex-direction: column; 
+    max-width: 350px;
+    gap: 0.5em;
+}
+
+.fuel-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0.5em;
+    background-color: rgba(137, 95, 250, 0.315);
+    border-radius: 0.5em;
+}
+
+
