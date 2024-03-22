@@ -17,6 +17,9 @@ export function CheckPoint() {
   const [fuelFlow, setFuelFlow] = useState(999);
   const [fuel, setFuel] = useState(999);
 
+  useEffect(()=>{
+    setMagneticCourse(calcMagneticCourse(geographicCourse, deviation))
+  }, [geographicCourse, deviation])
 
   useEffect(()=>{
     setCrossWind(calcCrossWind(magneticCourse, windDirection, windSpeed))
@@ -46,73 +49,14 @@ export function CheckPoint() {
     setFuel(calcFuel(fuelFlow, ete))
   }, [fuelFlow, ete])
 
-  //let geographicCourse;
-  //let magneticCourse;
-  //let deviation;
-  //let windDirection;
-  //let windSpeed;
-  //let crossWind;
-  let drift;
-  //let heading;
-  //let tas;
-  //let eTas;
-  //let longWind;
-  //let groundSpeed;
-  //let distance;
-  //let ete;
-  let eta;
-  //let fuelFlow;
-  //let fuel;
-
-  // function setGeographicCourse(gc) {
-  //   geographicCourse = Number(gc.target.value);
-  //   setMagneticCourse(geographicCourse+deviation);
-  //   console.log(geographicCourse)
-  //   console.log(deviation)
-  // }
-
-  // function setDeviation(d) {
-  //   deviation = Number(d.target.value);
-  //   setMagneticCourse(geographicCourse+deviation);
-  //   console.log(deviation)
-  //   console.log(geographicCourse)
-  // }
-
-  // function setWindDirection(wd) {
-  //   windDirection = Number(wd.target.value);
-  //   calculate();
-  // }
-
-  // function setWindSpeed(ws) {
-  //   windSpeed = Number(ws.target.value);
-  //   console.log(deviation + "  " + geographicCourse + "  " + magneticCourse);
-  // }
-
-  // function setTas(t) {
-  //   tas = Number(t.target.value);
-  //   calculate();
-  // }
-
-  // function setDistance(dist) {
-  //   distance = Number(dist.target.value);
-  //   calculate();
-  // }
-
-  // function setFuelFlow(ff) {
-  //   fuel = Number(ff.target.value);
-  //   calculate();
-  // }
-
   // ----------------- SERVICES ----------------------------
 
   function changeGeographicCourse(e) {
     setGeographicCourse(Number(e.target.value));
-    setMagneticCourse(Number(e.target.value) + Number(deviation));
   }
 
   function changeDeviation(e) {
     setDeviation(Number(e.target.value));
-    setMagneticCourse(Number(e.target.value) + Number(geographicCourse));
   }
 
   function changeWindDirection(e) {
@@ -135,9 +79,11 @@ export function CheckPoint() {
     setFuelFlow(Number(e.target.value));
   }
 
-
-
   // ----------------- CALCULOS ----------------------------
+
+  function calcMagneticCourse(gc, dev){
+    return gc+dev;
+  }
 
   function calcCrossWind(mc, wd, ws) {
     let magCourseRad = degreesToRad(togleReferenceSystems(mc));
@@ -174,37 +120,6 @@ export function CheckPoint() {
 
   function calcFuel(ff, e) {
     return (ff / 60) * e;
-  }
-
-  function calculate() {
-    console.log(
-      "desde calculate incio " +
-        " GEO: " +
-        geographicCourse +
-        " DEV: " +
-        deviation +
-        " MAG: " +
-        magneticCourse
-    );
-    //calcMagneticCourse(geographicCourse, deviation);
-    // const mgcal = magneticCourse + deviation;
-    // setMagneticCourse(mgcal);
-    //crossWind = calcWindVTrans(magneticCourse, windDirection, windSpeed);
-    //heading = calcHeading(tas, crossWind, magneticCourse);
-    //eTas = calcEtas(tas, heading, magneticCourse);
-    //longWind = calcLongWind(windSpeed, heading, windDirection);
-    //groundSpeed = calcGroundSpeed(eTas, longWind);
-    //ete = calcEte(distance, groundSpeed);
-    //fuel = calcFuel(fuelFlow, ete);
-    console.log(
-      "desde calculate fin " +
-        " GEO: " +
-        geographicCourse +
-        " DEV: " +
-        deviation +
-        " MAG: " +
-        magneticCourse
-    );
   }
 
   // ---------------- CONVERSIONES ----------------------------
