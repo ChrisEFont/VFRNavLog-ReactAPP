@@ -9,6 +9,14 @@ export function CheckPoint() {
   const [crossWind, setCrossWind] = useState(999);
   const [heading, setHeading] = useState(999);
   const [tas, setTas] = useState(999);
+  const [eTas, setETas] = useState(999);
+  const [longWind, setLongWind] = useState(999);
+  const [groundSpeed, setGrounSpeed] = useState(999);
+  const [distance, setDistance] = useState(999);
+  const [ete, setEte] = useState(999);
+  const [fuelFlow, setFuelFlow] = useState(999);
+  const [fuel, setFuel] = useState(999);
+
 
   useEffect(()=>{
     setCrossWind(calcCrossWind(magneticCourse, windDirection, windSpeed))
@@ -17,6 +25,26 @@ export function CheckPoint() {
   useEffect(()=>{
     setHeading(calcHeading(tas, crossWind, magneticCourse))
   },[tas, crossWind, magneticCourse])
+
+  useEffect(()=>{
+    setETas(calcEtas(tas, heading, magneticCourse))
+  }, [tas, heading, magneticCourse])
+
+  useEffect(()=>{
+    setLongWind(calcLongWind(windSpeed, heading, windDirection))
+  },[windSpeed, heading, windDirection])
+
+  useEffect(()=>{
+    setGrounSpeed(calcGroundSpeed(eTas, longWind))
+  },[eTas, longWind])
+
+  useEffect(()=>{
+    setEte(calcEte(distance, groundSpeed))
+  },[distance, groundSpeed])
+
+  useEffect(()=>{
+    setFuel(calcFuel(fuelFlow, ete))
+  }, [fuelFlow, ete])
 
   //let geographicCourse;
   //let magneticCourse;
@@ -27,14 +55,14 @@ export function CheckPoint() {
   let drift;
   //let heading;
   //let tas;
-  let eTas;
-  let longWind;
-  let groundSpeed;
-  let distance;
-  let ete;
+  //let eTas;
+  //let longWind;
+  //let groundSpeed;
+  //let distance;
+  //let ete;
   let eta;
-  let fuelFlow;
-  let fuel;
+  //let fuelFlow;
+  //let fuel;
 
   // function setGeographicCourse(gc) {
   //   geographicCourse = Number(gc.target.value);
@@ -65,15 +93,15 @@ export function CheckPoint() {
   //   calculate();
   // }
 
-  function setDistance(dist) {
-    distance = Number(dist.target.value);
-    calculate();
-  }
+  // function setDistance(dist) {
+  //   distance = Number(dist.target.value);
+  //   calculate();
+  // }
 
-  function setFuelFlow(ff) {
-    fuel = Number(ff.target.value);
-    calculate();
-  }
+  // function setFuelFlow(ff) {
+  //   fuel = Number(ff.target.value);
+  //   calculate();
+  // }
 
   // ----------------- SERVICES ----------------------------
 
@@ -99,13 +127,21 @@ export function CheckPoint() {
     setTas(Number(e.target.value));
   }
 
+  function changeDistance(e){
+    setDistance(Number(e.target.value));
+  }
+
+  function changeFuelFlow(e){
+    setFuelFlow(Number(e.target.value));
+  }
+
 
 
   // ----------------- CALCULOS ----------------------------
 
   function calcCrossWind(mc, wd, ws) {
     let magCourseRad = degreesToRad(togleReferenceSystems(mc));
-    let windDirRad = degreesToRad(togleReferenceSystems(wd));
+    let windDirRad = degreesToRad(togleReferenceSystems(flipDirection(wd)));
     return Math.round(Math.sin(magCourseRad - windDirRad) * ws);
   }
 
@@ -124,7 +160,7 @@ export function CheckPoint() {
 
   function calcLongWind(ws, h, wd) {
     let headingRad = degreesToRad(togleReferenceSystems(h));
-    let windDirRad = degreesToRad(togleReferenceSystems(wd));
+    let windDirRad = degreesToRad(togleReferenceSystems(flipDirection(wd)));
     return Math.round(Math.cos(headingRad - windDirRad) * ws);
   }
 
@@ -155,11 +191,11 @@ export function CheckPoint() {
     // setMagneticCourse(mgcal);
     //crossWind = calcWindVTrans(magneticCourse, windDirection, windSpeed);
     //heading = calcHeading(tas, crossWind, magneticCourse);
-    eTas = calcEtas(tas, heading, magneticCourse);
-    longWind = calcLongWind(windSpeed, heading, windDirection);
-    groundSpeed = calcGroundSpeed(eTas, longWind);
-    ete = calcEte(distance, groundSpeed);
-    fuel = calcFuel(fuelFlow, ete);
+    //eTas = calcEtas(tas, heading, magneticCourse);
+    //longWind = calcLongWind(windSpeed, heading, windDirection);
+    //groundSpeed = calcGroundSpeed(eTas, longWind);
+    //ete = calcEte(distance, groundSpeed);
+    //fuel = calcFuel(fuelFlow, ete);
     console.log(
       "desde calculate fin " +
         " GEO: " +
@@ -268,18 +304,18 @@ export function CheckPoint() {
           placeholder="TAS"
           onChange={changeTas}
         />
-        <input type="number" className="cp-calc" id="etas" readOnly />
-        <input type="number" className="cp-calc" id="long-wind" readOnly />
-        <input type="number" className="cp-calc" id="ground-speed" readOnly />
+        <input type="number" className="cp-calc" id="etas" value={eTas} readOnly />
+        <input type="number" className="cp-calc" id="long-wind" value={longWind} readOnly />
+        <input type="number" className="cp-calc" id="ground-speed" value={groundSpeed} readOnly />
         <input
           type="number"
           min="1"
           className="cp-data"
           id="distance"
           placeholder="Distance"
-          onChange={setDistance}
+          onChange={changeDistance}
         />
-        <input type="number" className="cp-calc" id="ete" readOnly />
+        <input type="number" className="cp-calc" id="ete" value={ete} readOnly />
         <span className="cp-calc" id="eta"></span>
         <input
           type="number"
@@ -287,9 +323,9 @@ export function CheckPoint() {
           className="cp-data"
           id="fuel-flow"
           placeholder="Fuel Flow"
-          onChange={setFuelFlow}
+          onChange={changeFuelFlow}
         />
-        <input type="number" className="cp-calc" id="fuel" readOnly />
+        <input type="number" className="cp-calc" id="fuel" value={fuel} readOnly />
       </div>
     </div>
   );
